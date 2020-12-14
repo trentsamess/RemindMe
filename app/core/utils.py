@@ -43,6 +43,16 @@ class Crypter:
         return result
 
     @classmethod
+    def get_data_from_code(cls, token, fields='__all__') -> dict:
+        if not token:
+            return {}
+        token_data = json.loads(cls.decrypt_data(token)) or {}
+        if isinstance(fields, list):
+            return {field: token_data.get(field, None) for field in fields}
+        elif isinstance(fields, str):
+            return token_data if fields == '__all__' else {}
+
+    @classmethod
     def get_crypt(cls):
         return cls.crypt_alg.new(cls._get_crypt_key(), cls.crypt_mode)
 

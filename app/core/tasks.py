@@ -18,11 +18,6 @@ def confirm_email(user_id: int):
         'text': "Account verification ",
         'title': 'Verify your email then be on the lookout.',
     }
-    context.update({
-        'button': True,
-        'button_text': 'Verify Email',
-        'button_link': link,
-    })
     recipients = [user.email]
     subject = "Confirm your email"
     text_content = f"{context['text']} Link: {link}"

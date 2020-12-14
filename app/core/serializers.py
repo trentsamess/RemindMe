@@ -71,7 +71,7 @@ class ReminderCreateSerializer(serializers.ModelSerializer):
         reminder.participants.add(*participants)
         participants = list(participants)
         participants.append(reminder.creator_id)
-        send_reminder_email.apply_asinc(eta=reminder.date_to_complete, user_ids=participants, reminder_id=reminder.id)
+        send_reminder_email.apply_async([participants, reminder.id], eta=reminder.date_to_complete)
         return reminder
 
     def to_representation(self, instance):

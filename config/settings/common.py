@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'django_celery_results',
     'rest_framework',
     'app.core',
 ]
@@ -124,6 +125,22 @@ SIMPLE_JWT = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = bool(os.getenv('CORS_ORIGIN_ALLOW_ALL', False))
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_TRANSPORT = 'redis'
+CELERY_RESULT_BACKEND = None
+CELERY_IGNORE_RESULT = True
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+DEFAULT_EMAIL = os.getenv('DEFAULT_EMAIL')
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
