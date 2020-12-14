@@ -1,0 +1,8 @@
+local.py
+.idea/
+__pycache__/
+venv/
+.env
+db.qslite3
+static/
+media/
