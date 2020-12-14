@@ -34,5 +34,5 @@ class Reminder(models.Model):
     description = models.CharField(max_length=256, null=True, blank=True)
     place = models.CharField(max_length=128, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    date_to_complete = models.DateField()
+    date_to_complete = models.DateTimeField()
     is_completed = models.BooleanField(default=False)

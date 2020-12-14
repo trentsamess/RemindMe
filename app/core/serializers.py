@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_jwt.utils import jwt_payload_handler, jwt_encode_handler
-from app.core.tasks import confirm_email
+from app.core.tasks import confirm_email, send_reminder_email
 from app.core.models import User, Reminder
 
 
@@ -69,6 +69,9 @@ class ReminderCreateSerializer(serializers.ModelSerializer):
         )
         participants = User.objects.filter(id__in=validated_data.get('participants')).values_list('id', flat=True)
         reminder.participants.add(*participants)
+        participants = list(participants)
+        participants.append(reminder.creator_id)
+        send_reminder_email.apply_asinc(eta=reminder.date_to_complete, user_ids=participants, reminder_id=reminder.id)
         return reminder
 
     def to_representation(self, instance):
