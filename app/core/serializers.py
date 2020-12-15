@@ -115,7 +115,7 @@ class ReminderEditSerializer(serializers.ModelSerializer):
         if validated_data.get('participants_to_add'):
             participants_to_add = validated_data.pop('participants_to_add')
             participants = User.objects.filter(id__in=participants_to_add).values_list('id', flat=True)
-            instance.participants.remove(*participants)
+            instance.participants.add(*participants)
         if validated_data.get('participants_to_remove'):
             participants_to_remove = validated_data.pop('participants_to_remove')
             participants = User.objects.filter(id__in=participants_to_remove).values_list('id', flat=True)
