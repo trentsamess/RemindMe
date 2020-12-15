@@ -112,14 +112,15 @@ class ReminderEditSerializer(serializers.ModelSerializer):
         )
 
     def update(self, instance, validated_data):
-        instance = super(ReminderEditSerializer, self).save(validated_data)
-        participants_to_add = validated_data.pop('participants_to_add')
-        participants_to_remove = validated_data.pop('participants_to_remove')
-        participants = User.objects.filter(id__in=participants_to_remove).values_list('id', flat=True)
-        instance.participants.remove(*participants)
-        participants = User.objects.filter(id__in=participants_to_add).values_list('id', flat=True)
-        instance.participants.remove(*participants)
-        instance.save()
+        if validated_data.get('participants_to_add'):
+            participants_to_add = validated_data.pop('participants_to_add')
+            participants = User.objects.filter(id__in=participants_to_add).values_list('id', flat=True)
+            instance.participants.remove(*participants)
+        if validated_data.get('participants_to_remove'):
+            participants_to_remove = validated_data.pop('participants_to_remove')
+            participants = User.objects.filter(id__in=participants_to_remove).values_list('id', flat=True)
+            instance.participants.remove(*participants)
+        instance = super(ReminderEditSerializer, self).update(instance, validated_data)
         return instance
 
     def to_representation(self, instance):
