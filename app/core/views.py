@@ -63,6 +63,7 @@ class ReminderViewSet(mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins
     permission_classes_by_action = {'destroy': [CanManageReminder],
                                     'complete': [CanManageReminder],
                                     'retrieve': [CanAccessReminder],
+                                    'edit': [CanManageReminder],
                                     }
 
     def get_serializer_class(self):
