@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
-from django.views import View
 from rest_framework import status, mixins
 from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
 from app.core.models import User, Reminder
@@ -15,7 +15,7 @@ from app.core.serializers import SignUpSerializer, ReminderCreateSerializer, Rem
 from app.core.utils import TokenCrypter
 
 
-class VerifyEmail(View):
+class VerifyEmail(APIView):
     def get(self, *args, **kwargs):
         token = self.request.GET.get('token')
         try:
