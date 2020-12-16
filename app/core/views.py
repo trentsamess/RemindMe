@@ -26,8 +26,6 @@ class VerifyEmail(View):
                 user.save()
                 return redirect('/login?result=success')
         except Exception:
-            pass
-        finally:
             return redirect('/login?result=error')
 
 
